@@ -70,7 +70,8 @@ function CharacterCard({ character }: CharacterCardProps) {
 border: "1px solid rgba(255,255,255,0.5)",
 overflow: "hidden",
         cursor: "pointer",
-        maxWidth: "250px"
+
+        maxWidth: "300px"
     }}
   >
     <img

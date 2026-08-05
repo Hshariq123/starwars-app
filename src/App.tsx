@@ -47,15 +47,23 @@ function App() {
   }
 
   return (
-    <div>
-      <h1>Star Wars Characters</h1>
+    <div
+    style={{
+    border: "1px solid red",
+    
+  }}
+    >
+      <h1  style={{
+      marginBottom: "32px",
+    }}>Star Wars Characters</h1>
 
      <div
   style={{
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-    gap: "20px",
+    gridTemplateColumns: "repeat(auto-fit, 300px)",
+    gap: "50px",
     padding: "20px",
+     justifyContent: "center"
   }}
 >
   {currentCharacters.map((character) => (
