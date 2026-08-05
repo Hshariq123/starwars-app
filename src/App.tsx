@@ -50,12 +50,21 @@ function App() {
     <div>
       <h1>Star Wars Characters</h1>
 
-      {currentCharacters.map((character) => (
-  <CharacterCard
-    key={character.url}
-    character={character}
-  />
-))}
+     <div
+  style={{
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+    gap: "20px",
+    padding: "20px",
+  }}
+>
+  {currentCharacters.map((character) => (
+    <CharacterCard
+      key={character.url}
+      character={character}
+    />
+  ))}
+</div>
       <div>
         <button
           onClick={() => setCurrentPage((prev) => prev - 1)}
