@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import api from "./services/api";
 import type { Character } from "./types/Character";
 import CharacterCard from "./components/CharacterCard";
+import CharacterModal from "./components/CharacterModal";
 
 function App() {
   const [characters, setCharacters] = useState<Character[]>([]);
@@ -22,6 +23,10 @@ function App() {
   const pageNumbers = Array.from(
     { length: totalPages },
     (_, index) => index + 1,
+  );
+
+  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
+    null,
   );
   useEffect(() => {
     const fetchCharacters = async () => {
@@ -48,31 +53,31 @@ function App() {
 
   return (
     <div
-    style={{
-    border: "1px solid red",
-    
-  }}
+      style={{
+        border: "1px solid red",
+      }}
     >
-      <h1  style={{
-      marginBottom: "32px",
-    }}>Star Wars Characters</h1>
+      <h1
+        style={{
+          marginBottom: "32px",
+        }}
+      >
+        Star Wars Characters
+      </h1>
 
-     <div
-  style={{
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, 300px)",
-    gap: "50px",
-    padding: "20px",
-     justifyContent: "center"
-  }}
->
-  {currentCharacters.map((character) => (
-    <CharacterCard
-      key={character.url}
-      character={character}
-    />
-  ))}
-</div>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, 300px)",
+          gap: "50px",
+          padding: "20px",
+          justifyContent: "center",
+        }}
+      >
+        {currentCharacters.map((character) => (
+          <CharacterCard key={character.url} character={character}  onClick={setSelectedCharacter}/>
+        ))}
+      </div>
       <div>
         <button
           onClick={() => setCurrentPage((prev) => prev - 1)}
@@ -110,6 +115,10 @@ function App() {
           Next
         </button>
       </div>
+      <CharacterModal
+  character={selectedCharacter}
+  onClose={() => setSelectedCharacter(null)}
+/>
     </div>
   );
 }

@@ -4,9 +4,10 @@ import { motion } from "framer-motion";
 import type { Character } from "../types/Character";
 interface CharacterCardProps {
   character: Character;
+  onClick: (character: Character) => void;
 }
 
-function CharacterCard({ character }: CharacterCardProps) {
+function CharacterCard({ character, onClick }: CharacterCardProps) {
   const [speciesName, setSpeciesName] = useState("Unknown");
 
   useEffect(() => {
@@ -58,6 +59,7 @@ function CharacterCard({ character }: CharacterCardProps) {
     scale: 1.05,
     y: -8,
   }}
+   onClick={() => onClick(character)}
   transition={{
     duration: 0.3,
   }}
