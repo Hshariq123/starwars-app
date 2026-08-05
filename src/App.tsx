@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import api from "./services/api";
 import type { Character } from "./types/Character";
+import CharacterCard from "./components/CharacterCard";
 
 function App() {
   const [characters, setCharacters] = useState<Character[]>([]);
@@ -50,8 +51,11 @@ function App() {
       <h1>Star Wars Characters</h1>
 
       {currentCharacters.map((character) => (
-        <p key={character.url}>{character.name}</p>
-      ))}
+  <CharacterCard
+    key={character.url}
+    character={character}
+  />
+))}
       <div>
         <button
           onClick={() => setCurrentPage((prev) => prev - 1)}
