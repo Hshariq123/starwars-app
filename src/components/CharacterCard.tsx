@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { motion } from "framer-motion";
 import type { Character } from "../types/Character";
-
 interface CharacterCardProps {
   character: Character;
 }
@@ -27,40 +27,50 @@ function CharacterCard({ character }: CharacterCardProps) {
     fetchSpecies();
   }, [character.species]);
 
-  const getCardColor = () => {
+ const getCardColor = () => {
   switch (speciesName) {
     case "Human":
-      return "#60a5fa";
+      return "#BFDBFE"; // Soft Blue
 
     case "Droid":
-      return "#9ca3af";
+      return "#E5E7EB"; // Light Gray
 
     case "Wookiee":
-      return "#b45309";
+      return "#E7C9A9"; // Warm Beige
 
     case "Rodian":
-      return "#65a30d";
+      return "#D9F99D"; // Soft Lime
 
     case "Hutt":
-      return "#ca8a04";
+      return "#FDE68A"; // Soft Gold
 
     case "Ewok":
-      return "#16a34a";
+      return "#BBF7D0"; // Mint Green
 
     default:
-      return "#7c3aed";
+      return "#E9D5FF"; // Lavender
   }
 };
 
  return (
-  <div
+  <motion.div
+    whileHover={{
+    scale: 1.05,
+    y: -8,
+  }}
+  transition={{
+    duration: 0.3,
+  }}
     style={{
       backgroundColor: getCardColor(),
       padding: "16px",
       borderRadius: "12px",
       textAlign: "center",
-      boxShadow: "0 4px 10px rgba(0,0,0,0.2)",
-      transition: "transform 0.3s ease",
+      boxShadow: "0 8px 20px rgba(0,0,0,0.12)",
+border: "1px solid rgba(255,255,255,0.5)",
+overflow: "hidden",
+        cursor: "pointer",
+        maxWidth: "250px"
     }}
   >
     <img
@@ -76,8 +86,16 @@ function CharacterCard({ character }: CharacterCardProps) {
       }}
     />
 
-    <h3>{character.name}</h3>
-  </div>
+    <h3
+     style={{
+    color: "#111827",
+    marginTop: "12px",
+    marginBottom: 0,
+    fontSize: "1.2rem",
+    fontWeight: 700,
+  }}
+    >{character.name}</h3>
+  </motion.div>
 );
 }
 
