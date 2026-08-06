@@ -20,6 +20,9 @@ A responsive React + TypeScript application that displays Star Wars characters u
 - Prevents background scrolling while the modal is open
 - Responsive design for desktop and mobile devices
 
+## Live Demo
+
+https://tsx-mern-06-aug2026-chi.vercel.app/
 ## Screenshots
 
 ![Screenshot 1](screenshots/1.png)
