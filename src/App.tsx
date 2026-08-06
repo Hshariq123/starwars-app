@@ -78,7 +78,16 @@ function App() {
           <CharacterCard key={character.url} character={character}  onClick={setSelectedCharacter}/>
         ))}
       </div>
-      <div>
+      <div
+        style={{
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "8px",
+    flexWrap: "wrap",
+    margin: "30px 0",
+  }}
+      >
         <button
           onClick={() => setCurrentPage((prev) => prev - 1)}
           disabled={currentPage === 1}
@@ -115,10 +124,12 @@ function App() {
           Next
         </button>
       </div>
-      <CharacterModal
-  character={selectedCharacter}
-  onClose={() => setSelectedCharacter(null)}
-/>
+   {selectedCharacter && (
+  <CharacterModal
+    character={selectedCharacter}
+    onClose={() => setSelectedCharacter(null)}
+  />
+)}
     </div>
   );
 }
