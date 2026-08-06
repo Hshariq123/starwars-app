@@ -1,75 +1,62 @@
-# React + TypeScript + Vite
+# Star Wars Character Browser
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A responsive React + TypeScript application that displays Star Wars characters using the Star Wars API (SWAPI). The application features pagination, animated character cards, detailed character information in a modal, and dynamically fetched homeworld information.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Fetches Star Wars characters from the SWAPI `/people` endpoint
+- Pagination (10 characters per page)
+- Responsive character card layout
+- Random image assigned to each character
+- Species-based card colors
+- Hover animations using Framer Motion
+- Character details displayed in a modal
+- Homeworld information fetched on demand
+- Loading and error handling
+- Modal closes by:
+  - Clicking outside the modal
+  - Pressing the **Escape** key
+  - Clicking the **Close** button
+- Prevents background scrolling while the modal is open
+- Responsive design for desktop and mobile devices
 
-## React Compiler
+## Screenshots
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+![Screenshot 1](screenshots/1.png)
 
-## Expanding the ESLint configuration
+![Screenshot 2](screenshots/2.png)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+![Screenshot 3](screenshots/3.png)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+![Screenshot 4](screenshots/4.png)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+![Screenshot 5](screenshots/5.png)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Tech Stack
 
-```
+- React
+- TypeScript
+- Vite
+- Axios
+- Framer Motion
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Project Structure
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```text
+src/
+│
+├── components/
+│   ├── CharacterCard.tsx
+│   └── CharacterModal.tsx
+│
+├── services/
+│   └── api.ts
+│
+├── types/
+│   ├── Character.ts
+│   └── Homeworld.ts
+│
+├── App.tsx
+├── index.css
+└── main.tsx
 ```

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+
+import api from "../services/api";
 
 import type { Character } from "../types/Character";
 import type { Homeworld } from "../types/Homeworld";
@@ -9,17 +10,33 @@ interface CharacterModalProps {
   onClose: () => void;
 }
 
+const detailsGridStyle = {
+  display: "grid",
+  gridTemplateColumns: "1fr auto",
+  rowGap: "14px",
+  columnGap: "24px",
+  color: "#374151",
+  fontSize: "1.05rem",
+  marginBottom: "30px",
+} as const;
+
+const sectionHeadingStyle = {
+  color: "#111827",
+  marginBottom: "16px",
+} as const;
+
 function CharacterModal({ character, onClose }: CharacterModalProps) {
   const [homeworld, setHomeworld] = useState<Homeworld | null>(null);
   const [loadingHomeworld, setLoadingHomeworld] = useState(false);
-  useEffect(() => {
 
+  // Fetch homeworld
+  useEffect(() => {
     const fetchHomeworld = async () => {
       setLoadingHomeworld(true);
       setHomeworld(null);
 
       try {
-        const response = await axios.get<Homeworld>(character.homeworld);
+        const response = await api.get<Homeworld>(character.homeworld);
         setHomeworld(response.data);
       } catch (error) {
         console.error(error);
@@ -31,35 +48,39 @@ function CharacterModal({ character, onClose }: CharacterModalProps) {
     fetchHomeworld();
   }, [character]);
 
-  //disable scrolling while card is open
-useEffect(() => {
-  const previousOverflow = document.body.style.overflow;
-
-  document.body.style.overflow = "hidden";
-
-  return () => {
-    document.body.style.overflow = previousOverflow;
-  };
-}, []);
-
-  //esc button closes the card:
+  // Disable background scrolling
   useEffect(() => {
-  const handleKeyDown = (event: KeyboardEvent) => {
-    if (event.key === "Escape") {
-      onClose();
-    }
-  };
+    const previousOverflow = document.body.style.overflow;
 
-  window.addEventListener("keydown", handleKeyDown);
+    document.body.style.overflow = "hidden";
 
-  return () => {
-    window.removeEventListener("keydown", handleKeyDown);
-  };
-}, [onClose]);
-  
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, []);
+
+  // Close on Escape
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [onClose]);
+
+  const createdDate = new Date(character.created)
+    .toLocaleDateString("en-GB")
+    .replaceAll("/", "-");
+
   return (
     <div
-    onClick={onClose}
+      onClick={onClose}
       style={{
         position: "fixed",
         inset: 0,
@@ -68,18 +89,19 @@ useEffect(() => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        padding: "20px",
         zIndex: 1000,
       }}
     >
       <div
-        onClick={(e) => e.stopPropagation()}
+        onClick={(event) => event.stopPropagation()}
+          className="character-modal"
 
         style={{
           backgroundColor: "#ffffff",
-         width: "min(450px, 95vw)",
-          maxWidth: "90%",
-          maxHeight:"90vh",
-          overflowY:"auto",
+          width: "min(450px, 95vw)",
+          maxHeight: "90vh",
+          overflowY: "auto",
           borderRadius: "16px",
           padding: "30px",
           boxShadow: "0 20px 40px rgba(0,0,0,0.25)",
@@ -98,17 +120,8 @@ useEffect(() => {
         >
           {character.name}
         </h2>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr auto",
-            rowGap: "14px",
-            columnGap: "24px",
-            color: "#374151",
-            fontSize: "1.05rem",
-            marginBottom: "30px",
-          }}
-        >
+
+        <div style={detailsGridStyle}>
           <strong>Height</strong>
           <span>{(Number(character.height) / 100).toFixed(2)} m</span>
 
@@ -122,12 +135,9 @@ useEffect(() => {
           <span>{character.films.length}</span>
 
           <strong>Created</strong>
-          <span>
-            {new Date(character.created)
-              .toLocaleDateString("en-GB")
-              .replaceAll("/", "-")}
-          </span>
+          <span>{createdDate}</span>
         </div>
+
         <hr
           style={{
             margin: "24px 0",
@@ -136,14 +146,7 @@ useEffect(() => {
           }}
         />
 
-        <h3
-          style={{
-            color: "#111827",
-            marginBottom: "16px",
-          }}
-        >
-          Homeworld
-        </h3>
+        <h3 style={sectionHeadingStyle}>Homeworld</h3>
 
         {loadingHomeworld ? (
           <p
@@ -157,17 +160,7 @@ useEffect(() => {
           </p>
         ) : (
           homeworld && (
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr auto",
-                rowGap: "14px",
-                columnGap: "24px",
-                color: "#374151",
-                fontSize: "1.05rem",
-                marginBottom: "30px",
-              }}
-            >
+            <div style={detailsGridStyle}>
               <strong>Name</strong>
               <span>{homeworld.name}</span>
 
@@ -182,6 +175,7 @@ useEffect(() => {
             </div>
           )
         )}
+
         <button
           onClick={onClose}
           style={{
